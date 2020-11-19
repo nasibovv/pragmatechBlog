@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+<title>Pragmatech Blogs| Search Result</title>
+{% endblock %}}
+
+{% block body %}
+<h1 style="text-align: center; margin-top: 70px; color: #28A745; font-weight: bold; font-size: 45px;">Search Results</h1>
+<div style="margin-top: 70px;" class="most_recent_blog">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12 col-md-12">
+                <div class="row">
+                    {% for blog in search_result %}
+                        <div class="col-xl-4 col-md-4">
+                            <div class="single_blog">
+                                <div class="blog_thumb">
+                                    <a href="/blog/{{blog.id}}">
+                                    <img src="{{blog.cover_photo}}" alt="">
+                                    </a>
+                                </div>
+                                <div class="blog_meta">
+                                    <p><a href="/blog/{{blog.id}}">Photography I {{blog.date_created}}</a></p>
+                                    <h3><a href="/blog/{{blog.id}}">
+                                        {{blog.title}}
+                                    </a></h3>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
