@@ -38,7 +38,8 @@
                 </div>
                 {% for tb in top_blog %}
                 <div class="col-xl-6 col-md-6">
-                    <div class="single_photography photography_bg_1">
+                    {% set cover_photo = url_for('static', filename=tb.cover_photo) %}
+                <div class="single_photography" style="background-image: url('{{cover_photo}}');">
                         <div class="info">
                             <div class="info_inner">
                                 <h3><a href="blog/{{tb.id}}">{{tb.title}}</a></h3>
@@ -71,9 +72,10 @@
                         {% for blog in recent_blog %}
                         <div class="col-xl-6 col-md-6">
                             <div class="single_blog">
-                                <div class="blog_thumb">
+                                <div style="width: 350px; height: 197px;" class="blog_thumb">
                                     <a href="/blog/{{blog.id}}">
-                                        <img src="{{blog.cover_photo}}" alt="">
+                                        <img src="{{blog.cover_photo}}" alt=""> <!--123-->
+                                        <img class="img-fluid" src="{{url_for('static', filename = blog.cover_photo)}}" alt="">
                                     </a>
                                 </div>
                                 <div class="blog_meta">
@@ -85,11 +87,6 @@
                             </div>
                         </div>
                         {% endfor %}
-                        <div class="col-xl-12">
-                            <div class="btn_area text-center">
-                                <a href="#" class="boxed-btn">Load More</a>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="col-xl-4 col-md-4">

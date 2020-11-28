@@ -17,7 +17,8 @@
                             <div class="single_blog">
                                 <div class="blog_thumb">
                                     <a href="/blog/{{blog.id}}">
-                                    <img src="{{blog.cover_photo}}" alt="">
+                                    <img src="{{blog.cover_photo}}" alt=""> <!--123-->
+                                    <img src="{{url_for('static', filename = blog.cover_photo)}}" alt="">
                                     </a>
                                 </div>
                                 <div class="blog_meta">

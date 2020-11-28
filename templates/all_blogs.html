@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+<title>Pragmatech Blogs| Məqalələr</title>
+{% endblock %}
+
+
+{% block body %}
+
+    <!-- most_recent_blog_start -->
+    <div class="most_recent_blog">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="section_title mb-33">
+                        <h3 style="margin-top: 50px;">Məqalələr</h3>
+                    </div>
+                </div>
+                <div class="col-xl-12 col-md-12">
+                    <div class="row">
+                        {% for blog in all_blogs %}
+                        <div class="col-xl-4 col-md-4">
+                            <div class="single_blog">
+                                <div style="width: 350px; height: 220px;" class="blog_thumb">
+                                    <a href="/blog/{{blog.id}}">
+                                    <img src="{{blog.cover_photo}}" alt=""> <!--123-->
+                                    <img class="img-fluid" src="{{url_for('static', filename = blog.cover_photo)}}" alt="">
+                                    </a>
+                                </div>
+                                <div class="blog_meta">
+                                    <p><a href="/blog/{{blog.id}}">Photography I {{blog.date_created}}</a></p>
+                                    <h3><a href="/blog/{{blog.id}}">
+                                        {{blog.title}}
+                                    </a></h3>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                        <div class="col-xl-12">
+                            <div class="btn_area text-center">
+                                <a href="#" class="boxed-btn">Load More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- most_recent_blog_end -->
+
+    
+{% endblock %}

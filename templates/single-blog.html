@@ -24,45 +24,26 @@
             <div class="single-post">
                <div class="feature-img">
                   <img class="img-fluid" src="{{cover}}" alt="">
+                  <img class="img-fluid" src="{{url_for('static', filename = cover)}}" alt="">
                </div>
                <div class="blog_details">
                   <h2>{{title}}
                   </h2>
                   <ul class="blog-info-link mt-3 mb-4">
-                     <li><a href="#"><i class="fa fa-user"></i> Tag will be here</a></li>
+                     <li><a href="#"><i class="fa fa-user"></i> {{writer.name}} {{writer.surname}}</a></li>
                      <li><a href="#disqus_thread"><i class="fa fa-comments"></i></a></li>
+                     <li><a href="#"><i class="fa fa-user"></i> Tag will be here</a></li>
                   </ul>
-                  <p class="excert">
-                     {{content}}
-                  </p>
-                  <p>
-                     {{content}}
-                  </p>
-                  <div class="quote-wrapper">
-                     <div class="quotes">
-                        MCSE boot camps have its supporters and its detractors. Some people do not understand why you
-                        should have to spend money on boot camp when you can get the MCSE study materials yourself at
-                        a fraction of the camp price. However, who has the willpower to actually sit through a
-                        self-imposed MCSE training.
-                     </div>
+                  <div class="excert">
+                     {{content|safe }}
                   </div>
-                  <p>
-                     MCSE boot camps have its supporters and its detractors. Some people do not understand why you
-                     should have to spend money on boot camp when you can get the MCSE study materials yourself at a
-                     fraction of the camp price. However, who has the willpower
-                  </p>
-                  <p>
-                     MCSE boot camps have its supporters and its detractors. Some people do not understand why you
-                     should have to spend money on boot camp when you can get the MCSE study materials yourself at a
-                     fraction of the camp price. However, who has the willpower to actually sit through a
-                     self-imposed MCSE training. who has the willpower to actually
-                  </p>
+                  
                </div>
             </div>
             <div class="navigation-top">
                <div class="d-sm-flex justify-content-between text-center">
-                  <p class="like-info"><span class="align-middle"><i class="fa fa-heart"></i></span> Lily and 4
-                     people like this</p>
+                  <!--<p class="like-info"><span class="align-middle"><i class="fa fa-heart"></i></span> Lily and 4
+                     people like this</p>-->
                   <div class="col-sm-4 text-center my-2 my-sm-0">
                      <!-- <p class="comment-count"><span class="align-middle"><i class="fa fa-comment"></i></span> 06 Comments</p> -->
                   </div>
@@ -76,6 +57,7 @@
                <div class="navigation-area">
                   <div class="row">
                      <div class="col-lg-6 col-md-6 col-12 nav-left flex-row d-flex justify-content-start align-items-center">
+                     {% if prev_next[0].title is defined %}
                         <div class="thumb">
                            <a href="{{ url_for('blog', id = prev_next[0].id) }}">
                               <img width="130px" height="150px" class="img-fluid" src="{{prev_next[0].cover_photo}}"
@@ -93,8 +75,10 @@
                               <h4>{{prev_next[0].title}}</h4>
                            </a>
                         </div>
+                     {% endif %}
                      </div>
                      <div class="col-lg-6 col-md-6 col-12 nav-right flex-row d-flex justify-content-end align-items-center">
+                        {% if prev_next[1].title is defined %}
                         <div class="detials">
                            <p>Next Post</p>
                            <a href="{{ url_for('blog', id = prev_next[1].id) }}">
@@ -111,19 +95,8 @@
                               <img width="130px" height="150px" class="img-fluid" src="{{prev_next[1].cover_photo}}" alt="">
                            </a>
                         </div>
+                        {% endif %}
                      </div>
-                  </div>
-               </div>
-            </div>
-            <div class="blog-author">
-               <div class="media align-items-center">
-                  <img src="{{url_for('static', filename='img/blog/author.png')}}" alt="">
-                  <div class="media-body">
-                     <a href="#">
-                        <h4>Harvard milan</h4>
-                     </a>
-                     <p>Second divided from form fish beast made. Every of seas all gathered use saying you're, he
-                        our dominion twon Second divided from</p>
                   </div>
                </div>
             </div>
@@ -181,23 +154,6 @@
                      </li>
                      {% endfor %}
                   </ul>
-               </aside>
-               <aside class="single_sidebar_widget popular_post_widget">
-                  <h3 class="widget_title">Recent Post</h3>
-                  {% for blog in recent_blog %}
-                  <div class="media post_item">
-                     <a href="/blog/{{blog.id}}">
-                        <img width="90px" height="90px" src="{{blog.cover_photo}}" alt="post">
-                     </a>
-
-                     <div class="media-body">
-                        <a href="/blog/{{blog.id}}">
-                           <h3>{{blog.title}}</h3>
-                        </a>
-                        <p>{{blog.date_created}}</p>
-                     </div>
-                  </div>
-                  {% endfor %}
                </aside>
                <aside class="single_sidebar_widget instagram_feeds">
                   <h4 class="widget_title">Instagram Feeds</h4>

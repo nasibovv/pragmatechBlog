@@ -14,3 +14,11 @@ class RegisterForm(Form):
     confirm = PasswordField('Repeat Password')
     email = StringField('Email', validators=[InputRequired(), Email()])   
     phone = StringField('Phone', validators=[InputRequired()])
+
+class BlogForm(Form):
+    title = StringField('Title', validators=[InputRequired()])
+    content = StringField('Title', validators=[InputRequired()])
+
+class PassChange(Form):
+    password = PasswordField('Password',validators=[InputRequired(), EqualTo('password_confirm', message="Passwords must match")])
+    password_confirm = PasswordField('Repeat Password')
