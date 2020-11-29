@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="icon" href="{{url_for('static', filename='img/pragmatech_img.jpg')}}">
+
+    <title>Pragmatech Blog</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{url_for('static', filename='css/bootstrap.min.css')}}" rel="stylesheet">
+
+    <!-- Fonts -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Righteous%7CMerriweather:300,300i,400,400i,700,700i" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+	<link href="{{url_for('static', filename='css/mediumish.css')}}" rel="stylesheet">
+	
+	<!-- App css -->
+	<link href="{{url_for('static', filename='css/jquery-ui.min.css')}}" rel="stylesheet">
+	<link href="{{url_for('static', filename='css/icons.min.css')}}" rel="stylesheet" type="text/css" />
+	<link href="{{url_for('static', filename='css/metisMenu.min.css')}}" rel="stylesheet" type="text/css" />
+	<link href="{{url_for('static', filename='css/app.min.css')}}" rel="stylesheet" type="text/css" />
+
+</head>
+
+
+<body>
+
+<!-- Begin Nav
+================================================== -->
+<nav class="navbar navbar-toggleable-lg navbar-light bg-white fixed-top mediumnavigation">
+<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"></span>
+</button>
+<div class="container">
+	<!-- Begin Logo -->
+	<a class="navbar-brand" href="/">
+	<img style="width: 170px" src="{{url_for('static', filename='img/logo.jpg')}}" alt="logo">
+	</a>
+	<!-- End Logo -->
+	<div style="float: right !important;" class="collapse navbar-collapse" id="navbarsExampleDefault">
+		<!-- Begin Menu -->
+		<ul class="navbar-nav ml-auto">
+			<li class="nav-item active">
+			<a class="nav-link" href="/">Main<span class="sr-only">(current)</span></a>
+			</li>
+			<li class="nav-item">
+			<a class="nav-link" href="/all_posts">All Blogs</a>
+			</li>
+			<li class="nav-item">
+			<a class="nav-link" href="/authors">Authors</a>
+			</li>
+			{% if name == 'Guest' -%}
+			<li class="nav-item">
+				<a class="nav-link" href="/login">Login</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="/register">Register</a>
+			</li>
+			{% elif name != 'Guest' -%}
+			<li style="margin-left: 10px; width: 35px;" class="nav-item">
+				<span class="meta-footer-thumb">
+					<a href="author.html"><img class="author-thumb" src="/static/{{pp}}" alt="Sal"></a>
+				</span>
+			</li>
+			<li class="nav-item">
+				<a style="width: 100%;" id="drop-casual" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Welcome, {{nname}}</a>
+					<div aria-labelledby="drop-casual" class="dropdown-menu dropdown-menu-right">
+						<a class="dropdown-item" href="/blog_write">Write a blog</a>
+						<a class="dropdown-item" href="/add_pp">Add Profile Photo</a>
+						<a class="dropdown-item" href="/pass_change">Change Password</a>
+						{% if admin == 1 %}
+						<a class="dropdown-item" href="/pass_change">Admin Panel</a>
+						{%endif%}
+						<a class="dropdown-item" href="/logout">Logout</a>
+					</div>
+			</li>
+			{% endif %}
+		</ul>
+		<!-- End Menu -->
+		<!-- Begin Search -->
+		<form class="form-inline my-2 my-lg-0" method="POST" action="search">
+			<input class="form-control mr-sm-2" name="search_string" type="text" placeholder="Search">
+			<span class="search-icon"><svg class="svgIcon-use" width="25" height="25" viewbox="0 0 25 25"><path d="M20.067 18.933l-4.157-4.157a6 6 0 1 0-.884.884l4.157 4.157a.624.624 0 1 0 .884-.884zM6.5 11c0-2.62 2.13-4.75 4.75-4.75S16 8.38 16 11s-2.13 4.75-4.75 4.75S6.5 13.62 6.5 11z"></path></svg></span>
+		</form>
+		<!-- End Search -->
+	</div>
+</div>
+</nav>
+<!-- End Nav
+================================================== -->
+
+{% block body %}
+
+{% endblock %}
+
+<!-- Begin Footer
+================================================== -->
+<div style="margin-top: 100px" class="container">
+	<div class="footer">
+		<p class="pull-left">
+			 Copyright &copy; 2020 Vidadi Nasibov
+		</p>
+		<div class="clearfix">
+		</div>
+	</div>
+</div>
+<!-- End Footer
+================================================== -->
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="{{url_for('static', filename='js/jquery.min.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
+<script src="{{url_for('static', filename='js/ie10-viewport-bug-workaround.js')}}"></script>
+<script src="{{url_for('static', filename='js/mediumish.js')}}"></script>
+
+
+<!-- jQuery  -->
+<script src="{{url_for('static', filename='js/jquery-ui.min.js')}}"></script>
+<script src="{{url_for('static', filename='js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{url_for('static', filename='js/metismenu.min.js')}}"></script>
+<script src="{{url_for('static', filename='js/waves.js')}}"></script>
+<script src="{{url_for('static', filename='js/feather.min.js')}}"></script>
+<script src="{{url_for('static', filename='js/jquery.slimscroll.min.js')}}"></script>        
+
+<!-- App js -->
+<script src="{{url_for('static', filename = 'js/app.js')}}"></script>
+
+
+{% block script %}
+
+{% endblock %}

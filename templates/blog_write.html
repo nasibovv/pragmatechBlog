@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+<title>Pragmatech Blogs| Blog Write</title>
+
+<style>
+    #cke_content{
+        margin: 50px 0;
+    }
+
+    .django-ckeditor-widget{
+        width: 100%;
+    }
+</style>
+{% endblock %}
+
+{% with messages = get_flashed_messages() %}
+
+{% if messages %}
+{% for message in messages %}
+
+<!--invalid input message-->
+
+<div class="alert alert-success alert-dismissable" role="alert">
+
+    <button type="button" class="close" data-dismiss='alert' aria-label="close">
+
+        <span aria-hidden="true"></span>
+
+    </button>
+    {{message}}
+
+</div>
+
+{% endfor %}
+
+{% endif %}
+
+{% endwith %}
+
+{% block body %}
+
+
+
+
+<div class="container">
+    <div class="row vh-100 ">
+        <div class="col-12 align-self-center">
+            <div class="auth-page">
+                <div class="card auth-card shadow-lg">
+                    <div  class="card-body">
+                        <div class="px-3">
+                            
+                            <div class="text-center auth-logo-text">
+                                <h4 class="mt-0 mb-3 mt-5">Pragmatech Blog Write</h4>
+                                <p class="text-muted mb-0">*Cover photo is required</p>  
+                            </div> <!--end auth-logo-text-->  
+
+                            
+                            <form class="form-horizontal auth-form my-4" novalidate enctype="multipart/form-data" name = "blog" method = "POST" action="{{ url_for('blog_write')}}">
+                                {{form.csrf_token}}
+
+                                <div class="form-group">
+                                    <label for="title">Title</label>
+                                    <div class="input-group mb-3">                                                                                                            
+                                        <input type="text" class="form-control" name="title" placeholder="Enter blog title">
+                                    </div>                                    
+                                </div><!--end form-group--> 
+    
+                                <div class="form-group">
+                                    <label for="cover_photo">Cover Photo</label>                                            
+                                    <div class="input-group mb-3">                                                       
+                                        <input type="file" class="form-control" name="photo">
+                                    </div>                               
+                                </div><!--end form-group--> 
+
+                                <div class="form-group">
+                                    <label for="cover_photo">Content</label>                                            
+                                    <div class="input-group mb-3"> 
+                                        {{ ckeditor.create(name='content') }}
+                                        {{ ckeditor.load() }}
+                                        {{ ckeditor.config(name='content',width=1100, height = 400) }}
+                                        
+                                                                                             
+                                    </div>                               
+                                </div><!--end form-group--> 
+    
+                                <div class="form-group row mt-4">
+                                    <div class="col-sm-6">
+                                        <div class="custom-control custom-switch switch-success">
+                                            <input type="checkbox" class="custom-control-input" id="customSwitchSuccess">
+                                            <!--<label class="custom-control-label text-muted" for="customSwitchSuccess">Remember me</label>-->
+                                        </div>
+                                    </div>
+                                   
+                                    <!--<div class="col-sm-6 text-right">
+                                        <a href="auth-recover-pw.html" class="text-muted font-13"><i class="dripicons-lock"></i> Forgot password?</a>                                    
+                                    </div> --> 
+                                </div><!--end form-group--> 
+    
+                                <div class="form-group mb-0 row">
+                                    <div class="col-3 mt-2">
+                                        <button class="btn btn-gradient-primary btn-round btn-block waves-effect waves-light" value="POST" type="submit">Submit </button>
+                                    </div><!--end col--> 
+                                </div> <!--end form-group-->                           
+                            </form><!--end form-->
+                        </div><!--end /div-->
+                    </div><!--end card-body-->
+                </div><!--end card-->
+            </div><!--end auth-page-->
+        </div><!--end col-->           
+    </div><!--end row-->
+</div><!--end container-->
+<!-- End Log In page -->
+</div>
+
+<script src="https://cdn.ckeditor.com/4.15.1/standard/ckeditor.js"></script>
+<script> CKEDITOR.replace('content');</script>
+
+
+{% endblock %}

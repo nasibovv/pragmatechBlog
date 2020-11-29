@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+<title>Pragmatech Blogs| Register</title>
+{% endblock %}
+
+    {% block body %}
+
+    {% with messages = get_flashed_messages() %}
+
+    {% if messages %}
+    {% for message in messages %}
+
+    <!--invalid input message-->
+
+    <div class="alert alert-success alert-dismissable" role="alert">
+
+        <button type="button" class="close" data-dismiss='alert' aria-label="close">
+
+            <span aria-hidden="true"></span>
+
+        </button>
+        {{message}}
+
+    </div>
+
+    {% endfor %}
+
+    {% endif %}
+
+    {% endwith %}
+
+        <!-- Log In page -->
+            <div class="container">
+                <div class="row vh-100 d-flex justify-content-center">
+                    <div class="col-12 align-self-center">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-5 mx-auto">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="media mb-3">                                  
+                                                <div class="media-body align-self-center text-truncate ml-2">                                    
+                                                    <h4 class="mt-0 mb-1 font-weight-semibold text-dark font-18">Registration</h4>                                           
+                                                </div><!--end media-body-->
+                                            </div>
+                    
+                                            <form class="form-horizontal auth-form my-4" method="POST">
+                                                {{form.csrf_token}}
+                                                <div class="form-group">
+                                                    <label for="username">Name</label>
+                                                    <div class="input-group mb-3">                                                                                     
+                                                        <input type="text" class="form-control" name="name" id="name" placeholder="Enter name">
+                                                        {% for error in form.name.errors %}
+                                                            <span style="color: red;">{{error}}</span>
+
+                                                        {% endfor %}
+                                                    </div>                                    
+                                                </div><!--end form-group--> 
+
+                                                <div class="form-group">
+                                                    <label for="username">Surname</label>
+
+                                                    <div class="input-group mb-3">                                                                                     
+                                                        <input type="text" class="form-control" name="surname" id="surname" placeholder="Enter surname">
+                                                        {% for error in form.surname.errors %}
+                                                            <span style="color: red;">{{error}}</span>
+
+                                                        {% endfor %}
+                                                    </div>                                    
+                                                </div><!--end form-group--> 
+
+
+                                                <div class="form-group">
+                                                    <label for="username">Username</label>
+                                                    
+                                                    <div class="input-group mb-3">                                                                                     
+                                                        <input type="text" class="form-control" name="username" id="username" placeholder="Enter username">
+                                                        {% for error in form.username.errors %}
+                                                            <span style="color: red;">{{error}}</span>
+
+                                                        {% endfor %}
+                                                    </div>                                    
+                                                </div><!--end form-group--> 
+                    
+                                                <div class="form-group">
+                                                    <label for="useremail">Email</label>
+                                                    
+                                                    <div class="input-group mb-3">                                                                                       
+                                                        <input type="email" class="form-control" name="email" id="useremail" placeholder="Enter Email">
+                                                        {% for error in form.email.errors %}
+                                                            <span style="color: red;">{{error}}</span>
+
+                                                        {% endfor %}
+                                                    </div>                                    
+                                                </div><!--end form-group-->
+                    
+                                                <div class="form-group">
+                                                    <label for="userpassword">Password</label> 
+                                                                                              
+                                                    <div class="input-group mb-3">                                
+                                                        <input type="password" class="form-control" name="password" id="userpassword" placeholder="Enter password">
+                                                        {% for error in form.password.errors %}
+                                                            <span style="color: red;">{{error}}</span>
+
+                                                        {% endfor %}
+                                                    </div>                               
+                                                </div><!--end form-group--> 
+                    
+                                                <div class="form-group">
+                                                    <label for="conf_password">Confirm Password</label>
+                                                                                                
+                                                    <div class="input-group mb-3">                                
+                                                        <input type="password" class="form-control" name="confirm" id="conf_password" placeholder="Enter Confirm Password">
+                                                        {% for error in form.confirm.errors %}
+                                                            <span style="color: red;">{{error}}</span>
+
+                                                        {% endfor %}
+                                                    </div>
+                                                </div><!--end form-group--> 
+                    
+                                                <div class="form-group">
+                                                    <label for="mo_number">Mobile Number</label>  
+                                                                                          
+                                                    <div class="input-group mb-3">                                  
+                                                        <input type="text" class="form-control" name="phone" id="mo_number" placeholder="Enter Mobile Number">
+                                                        {% for error in form.phone.errors %}
+                                                            <span style="color: red;">{{error}}</span>
+
+                                                        {% endfor %}
+                                                    </div>                               
+                                                </div><!--end form-group--> 
+                    
+                                                <div class="form-group row mt-4">
+                                                    <div class="col-sm-12">
+                                                        <div class="custom-control custom-switch switch-success">
+                                                            <input type="checkbox" class="custom-control-input" id="customSwitchSuccess">
+                                                        </div>
+                                                    </div><!--end col-->                                             
+                                                </div><!--end form-group--> 
+                    
+                                                <div class="form-group mb-0 row">
+                                                    <div class="col-12 mt-2">
+                                                        <button class="btn btn-primary btn-block waves-effect waves-light"  type="submit">Register</button>
+                                                    </div><!--end col--> 
+                                                </div> <!--end form-group-->                           
+                                            </form><!--end form-->
+                                            
+                                            <div class="m-3 text-center text-muted">
+                                                <p class="">Already have an account ? <a href="/login" class="text-primary ml-2">Log in</a></p>
+                                            </div>
+                                        </div><!--end card-body-->
+                                    </div><!--end card-->
+                                </div><!--end col-->
+                            </div><!--end row-->
+                        </div><!--end card-body-->
+                    </div><!--end col-->           
+                </div><!--end row-->
+            </div><!--end container-->
+        <!-- End Log In page -->
+        
+{% endblock %}
