@@ -129,6 +129,7 @@ class Anonymous(AnonymousUserMixin):
     self.is_admin = 0
     self.profile_pic = ' '
 
+
 login_manager.anonymous_user = Anonymous
 
 @login_manager.user_loader
@@ -142,7 +143,7 @@ def inject_user():
     admin = current_user.is_admin
     profile_pic = current_user.profile_pic
     
-    return dict(name = name, nname = nname, admin = admin, pp = profile_pic)
+    return dict(name = name, nname = nname, admin = admin, pp = profile_pic, id = current_user.get_id())
 
 
 @app.route('/')   
@@ -425,7 +426,47 @@ def add_pp():
 
 @app.route('/authors')
 def authors():
-    return render_template('authors.html')
+    
+    temp = userInfo.query.with_entities(userInfo.id).all()
+    temp2 = articles.query.with_entities(articles.writer_id).all()
+    writer = list()
+    authors = list()
+
+    for x in range(len(temp2)):
+        for y in range(len(temp)):
+            if temp[y][0] == temp2 [x][0]:
+                writer.append(temp[y][0])
+
+    writer = list(set(writer))
+    post_bywriter = list()
+
+    for x in writer:
+        authors.append(userInfo.query.get(x))
+
+    for y in range(len(writer)):
+        count = 0
+        for x in range(len(temp2)):
+            if writer[y] == temp2[x][0]:
+                count += 1
+        post_bywriter.append(count)
+
+
+    print(authors)
+
+    return render_template('authors.html', authors = zip(authors, post_bywriter))
+
+@app.route('/author/<int:id>')
+def author(id):
+
+    author = userInfo.query.get(id)
+    blogs = articles.query.filter_by(writer_id = id).all()
+
+    print(author)
+    print(blogs)
+
+
+
+    return render_template('author.html', author = author, blogs = blogs)
 
 
 if __name__ =='__main__':  
