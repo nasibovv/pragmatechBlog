@@ -157,7 +157,7 @@
                 }
                 
                 $('#blog_post_wrapper').append(newHtml)
-                if(tempList[tempList.length - 1] == 1){
+                if(tempList[tempList.length - 1] == undefined){
                     $('#load_more_btn').remove();
                 }else{
                     $('#load_more_btn').removeClass('disabled').text('Load More')

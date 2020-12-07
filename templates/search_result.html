@@ -17,6 +17,7 @@
             <div class="col-xl-12 col-md-12">
                 <div class="row">
                     {% for (blog, writer) in search_result %}
+                    {% if blog.active == 1 %}
                     <div class="col-cl-4 col-md-4">
                         <!-- begin post -->
                         <div style="margin-top: 30px;" class="card">
@@ -35,7 +36,8 @@
                                                     alt="Sal"></a>
                                         </span>
                                         <span class="author-meta">
-                                            <span class="post-name">{{writer.name}} {{writer.surname}}<a href="author.html"></a></span><br />
+                                            <span class="post-name">{{writer.name}} {{writer.surname}}<a
+                                                    href="author.html"></a></span><br />
                                             <span
                                                 class="post-date">{{blog.date_created.strftime('%d-%m-%Y')}}</span><span
                                                 class="dot"></span><span class="post-read">6 min read</span>
@@ -52,6 +54,7 @@
                         </div>
                         <!-- end post -->
                     </div>
+                    {% endif %}
                     {% endfor %}
                 </div>
             </div>

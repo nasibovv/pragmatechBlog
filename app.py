@@ -12,7 +12,7 @@ from werkzeug.utils import secure_filename
 from flask_ckeditor import CKEditor
 from multiprocessing import Value
 
-
+# App configurations
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(16)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
@@ -34,6 +34,7 @@ login_manager.login_view = 'Login' #?
 
 counter = Value('i', 0)
 
+#some global functions
 def get_random_string(length):
     letters = string.ascii_lowercase
     result_str = ''.join(random.choice(letters) for i in range(length))
@@ -43,6 +44,8 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+
+# Models Start
 
 class userInfo(UserMixin, db.Model):
     __tablename__ = 'userInfo'
@@ -61,7 +64,7 @@ class userInfo(UserMixin, db.Model):
 
     date_created = db.Column(db.DateTime(timezone=True), default=func.now())
     grad_status = db.Column(db.Boolean, default=False, nullable=False)
-    active = db.Column(db.Boolean, default=True, nullable=False)
+    active = db.Column(db.Boolean, default=False, nullable=False)
     is_admin = db.Column(db.Boolean, default=False, nullable=False)
 
 
@@ -88,7 +91,7 @@ class articles(db.Model):
     read_time = db.Column(db.Integer)
 
     date_created = db.Column(db.DateTime(timezone=True), default=func.now())
-    active = db.Column(db.Boolean, default=True, nullable=False)
+    active = db.Column(db.Boolean, default=False, nullable=False)
 
     def __init__(self, title, content, cover_photo, likes, view, writer_id, read_time):
         self.title = title
@@ -121,6 +124,7 @@ class tags(db.Model):
         self.name = name
 
 
+# Functions for login process
 
 class Anonymous(AnonymousUserMixin):
   def __init__(self):
@@ -145,6 +149,7 @@ def inject_user():
     
     return dict(name = name, nname = nname, admin = admin, pp = profile_pic, id = current_user.get_id())
 
+# Routes start
 
 @app.route('/')   
 def home():
@@ -155,23 +160,38 @@ def home():
     top_blog_list = list()
     writer = list()
     tb_writer = list()
+    
+    count = 4
 
-    for x in range(4):
-        top_blog = articles.query.get(id)
-        top_blog_list.append(top_blog)
+    for x in range(50):
+        if count != 0:
+            top_blog = articles.query.get(id)
         
-        tb_writer_obj = userInfo.query.get(top_blog.writer_id)
-        tb_writer.append(tb_writer_obj)
-
+            if top_blog.active == True:
+                top_blog_list.append(top_blog)
+                tb_writer_obj = userInfo.query.get(top_blog.writer_id)
+                tb_writer.append(tb_writer_obj)
+                count = count - 1
+            
+        else:
+            break
 
         id = id - 1
 
-    for x in range(6):
-        blog = articles.query.get(id)
-        blog_list.append(blog)
 
-        writer_obj = userInfo.query.get(blog.writer_id)
-        writer.append(writer_obj)
+    count2 = 6
+    for x in range(50):
+        if count2 != 0:
+            blog = articles.query.get(id)
+
+            if blog.active == True:
+                blog_list.append(blog)
+                writer_obj = userInfo.query.get(blog.writer_id)
+                writer.append(writer_obj)
+                count2 = count2 - 1
+        
+        else:
+            break
 
         id = id - 1
 
@@ -189,6 +209,7 @@ def search():
         search_value = form['search_string']
         search = '%{0}%'.format(search_value)
         results = articles.query.filter(or_(articles.title.like(search), articles.content.like(search))).all()
+        #.filter_by(articles.active == True)
 
         for x in results:
             writer_obj = userInfo.query.get(x.writer_id)
@@ -204,17 +225,25 @@ def all_posts():
     last_item = articles.query.order_by(articles.id.desc()).first()
     id =  last_item.id
     data = {}
+    
 
-    for x in range(6):
+    count = 6
+    for x in range(50):
+        if count != 0:
+            article = articles.query.get(id)
 
-        tempData = []
-        tempData.append(articles.query.get(id))
-        tempData.append(userInfo.query.get(articles.query.get(id).writer_id))
+            if article.active == True:
+                tempData = []
+                tempData.append(articles.query.get(id))
+                tempData.append(userInfo.query.get(articles.query.get(id).writer_id))
+                count = count - 1
+            
+                
+                data[id] = tempData
+            id = id - 1
+        else:
+            break
 
-        data[id] = tempData
-        id = id - 1
-
-    print(data)
     return render_template('all_blogs.html', all_blogs = data)
 
 @app.route('/load', methods=['GET', 'POST'])
@@ -223,23 +252,30 @@ def load():
         id =  int(request.form.get("last_blog_id")) - 1
 
         data = {}
-        for x in range(6):
+        count = 6
+        for x in range(50):
             if (id == 0):
                 break
 
-            tempArticle = articles.query.get(id)
-            tempData =  []
-            tempData.append(tempArticle.title)
-            tempData.append(tempArticle.content)
-            tempData.append(tempArticle.cover_photo)
-            tempData.append(userInfo.query.get(int(tempArticle.writer_id)).name)
-            tempData.append(userInfo.query.get(int(tempArticle.writer_id)).surname)
-            tempData.append(tempArticle.date_created.strftime('%d-%m-%Y'))
+            if count != 0:
+                tempArticle = articles.query.get(id)
 
-            data[id] = tempData
+                if tempArticle.active == True:
+                    tempData =  []
+                    tempData.append(tempArticle.title)
+                    tempData.append(tempArticle.content)
+                    tempData.append(tempArticle.cover_photo)
+                    tempData.append(userInfo.query.get(int(tempArticle.writer_id)).name)
+                    tempData.append(userInfo.query.get(int(tempArticle.writer_id)).surname)
+                    tempData.append(tempArticle.date_created.strftime('%d-%m-%Y'))
+                    count = count - 1
+                    data[id] = tempData
+            else:
+                break
+
             id = id - 1             
             res = data
-        else:
+        if id != 0:
             res = data
         
     return res
@@ -247,13 +283,14 @@ def load():
 
 @app.route('/blog/<int:id>')
 def blog(id):
+    blog = articles.query.get(id)
+
+    counter.value = blog.view
 
     with counter.get_lock():
         counter.value += 1
         out = counter.value
     
-    
-    blog = articles.query.get(id)
 
     blog.view = out
     db.session.commit()
@@ -265,13 +302,21 @@ def blog(id):
     blog_list = list()
     rw = list()
 
-    rand_id = random.sample(range(1, last_blog_id + 1), 3)
-    for i in range(3):
-        post = articles.query.get(rand_id[i])
-        blog_list.append(post)
+    rand_id = random.sample(range(1, last_blog_id + 1), last_blog_id)
 
-        related_writer = userInfo.query.get(post.writer_id)
-        rw.append(related_writer)
+    count = 3
+    for i in range(50):
+        if count != 0:
+            post = articles.query.get(rand_id[i])
+            if post.active == True:
+                blog_list.append(post)
+
+                related_writer = userInfo.query.get(post.writer_id)
+                rw.append(related_writer)
+                count = count - 1
+        
+        else:
+            break
 
     return render_template('post.html', post = blog, writer = writer_obj, related_post = zip(blog_list, rw), view = blog.view)
 
@@ -284,13 +329,17 @@ def Login():
         if form.validate_on_submit():
             user = userInfo.query.filter_by(username = form.username.data).first()
 
-            if user:
-                if check_password_hash(user.password, form.password.data):
-                    login_user(user)
+            if user.active == True:
+                if user:
+                    if check_password_hash(user.password, form.password.data):
+                        login_user(user)
 
-                    return redirect(url_for('home'))
+                        return redirect(url_for('home'))
 
-                flash("Invalid Credentials")
+                    flash("Invalid Credentials")
+
+            else:
+                flash("Your account is currently in hold. Please contact with admin.")
 
         
 
@@ -427,14 +476,21 @@ def add_pp():
 @app.route('/authors')
 def authors():
     
+    real_temp2 = list()
     temp = userInfo.query.with_entities(userInfo.id).all()
     temp2 = articles.query.with_entities(articles.writer_id).all()
+    blogs = articles.query.all()
+
+    for x in range(len(temp2)):
+        if blogs[x].active == True:
+            real_temp2.append(blogs[x].writer_id)
+    
     writer = list()
     authors = list()
 
-    for x in range(len(temp2)):
+    for x in range(len(real_temp2)):
         for y in range(len(temp)):
-            if temp[y][0] == temp2 [x][0]:
+            if temp[y][0] == real_temp2[x]:
                 writer.append(temp[y][0])
 
     writer = list(set(writer))
@@ -442,31 +498,95 @@ def authors():
 
     for x in writer:
         authors.append(userInfo.query.get(x))
+    
+    print(temp2)
 
     for y in range(len(writer)):
         count = 0
         for x in range(len(temp2)):
-            if writer[y] == temp2[x][0]:
-                count += 1
+            if writer[y] == blogs[x].writer_id:
+                if blogs[x].active == True:
+                    count += 1
+        
         post_bywriter.append(count)
-
-
-    print(authors)
 
     return render_template('authors.html', authors = zip(authors, post_bywriter))
 
 @app.route('/author/<int:id>')
 def author(id):
+    blog = list()
 
     author = userInfo.query.get(id)
     blogs = articles.query.filter_by(writer_id = id).all()
 
-    print(author)
-    print(blogs)
+    for x in range(len(blogs)):
+        if blogs[x].active == True:
+            blog.append(blogs[x])
 
 
+    return render_template('author.html', author = author, blogs = blog)
 
-    return render_template('author.html', author = author, blogs = blogs)
+@app.route('/admin/user')
+@login_required
+def admin_user():
+
+    users = userInfo.query.all()
+
+    if current_user.is_admin == 1:
+        return render_template('admin-user.html', users = users)
+    else:
+        return "Access Denied!"
+
+@app.route('/admin/blog')
+@login_required
+def admin_blog():
+
+    blogs = articles.query.all()
+    authors = list()
+
+    for x in range(len(blogs)):
+        authors.append(userInfo.query.get(blogs[x].writer_id))
+
+    if current_user.is_admin == 1:
+        return render_template('admin-blog.html',db = zip(blogs, authors))
+    else:
+        return "Access Denied!"
+
+@app.route('/deactivate/<int:id>')
+def deactivate(id):
+    blog = articles.query.filter_by(id = id).first()
+
+    blog.active = False
+    db.session.commit()
+
+    return redirect('/admin/blog')
+
+@app.route('/activate/<int:id>')
+def activate(id):
+    blog = articles.query.filter_by(id = id).first()
+
+    blog.active = True
+    db.session.commit()
+
+    return redirect('/admin/blog')
+
+@app.route('/ban/<int:id>')
+def ban(id):
+    user = userInfo.query.filter_by(id = id).first()
+
+    user.active = False
+    db.session.commit()
+
+    return redirect('/admin/user')
+
+@app.route('/unban/<int:id>')
+def unban(id):
+    user = userInfo.query.filter_by(id = id).first()
+
+    user.active = True
+    db.session.commit()
+
+    return redirect('/admin/user')
 
 
 if __name__ =='__main__':  

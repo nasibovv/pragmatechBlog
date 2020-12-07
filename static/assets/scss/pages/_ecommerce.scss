@@ -1,0 +1,212 @@
+//
+// Ecommerce
+// 
+
+// Dashboard
+
+.user-img-box{
+  position: relative;
+  width: 128px;
+  height: 128px;
+  .flag{
+    cursor: pointer;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    border: 3px solid $card-bg;
+  }
+}
+
+.order-list {
+  table {
+    td {
+      img {
+        width: 40px;
+      }
+    }
+  }
+}
+
+
+
+
+
+.ribbon{  
+    position: absolute;
+    top: 0;
+    padding: 6px;
+    left: -5px;
+    color: $white;    
+    &:before {
+      position: absolute;
+      top: 31px;
+      left: 0;
+      content: "";
+      border: 3px solid transparent;
+    }
+  &.ribbon-pink {
+    background-color: $pink;    
+    &:before {      
+      border-top-color: $pink;
+      border-right-color: $pink;
+    }
+  }
+  &.ribbon-secondary {
+    background-color: $secondary;    
+    &:before {      
+      border-top-color: $secondary;
+      border-right-color: $secondary;
+    }
+  }
+}
+
+
+hr.thick {
+  border: 0;
+  height: 3px;
+  max-width: 150px;
+  background-image: linear-gradient(to right,$primary,$purple);
+  border-radius: 30px;
+}
+
+//
+// Product Detail
+//
+
+
+.single-pro-detail{
+  .custom-border{
+    width: 60px;
+    height: 2px;
+    background-color: $dark;
+  }
+  .pro-title{
+    color: $gray-700;
+    font-size: 24px;
+  }  
+  .product-review{
+    li{
+      margin: 0;
+      i{
+        font-size: 16px;
+      }
+    }
+  }
+  .pro-price{
+    color: $gray-700;
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 0;
+    span{
+      font-size: 14px;
+      color: $gray-500;
+    }
+  }
+  .quantity{  
+    input {
+      width: 14%;
+      display: inline-flex;      
+      height: calc(24px + 8px);
+    }
+  }
+  .pro-features{
+    li{
+      line-height: 26px;
+      color: $text-muted;
+      &::before{
+        content: "\f00c" !important;
+        font-family: 'Font Awesome 5 Free' !important;
+        font-weight: 600;
+        font-size: 12px;
+        color: $success !important;
+        display: inline-block;
+        margin-right: 8px;
+      }
+    }
+  }
+  .form-check-inline{
+    margin-right: 5px;
+  }
+}
+
+.review-box{
+  background-color: $light-alt;
+  padding: 20px;
+  justify-content: center;
+  align-items: center;
+  h1{
+    font-size: 48px;
+    color: $danger;
+  }
+  .product-review{
+    li{
+      margin-right: 0;
+      i{
+        font-size: 18px;
+      }
+    }
+  }
+}
+
+.reviewer{
+  padding-bottom: 12px;
+  margin-top: 8px;
+  border-bottom: 2px dotted $gray-200; 
+  .product-review{
+    li{
+      margin-right: 0;
+      
+    }
+  }
+}
+
+
+// Cart
+
+.total-payment,
+.shopping-cart{
+  .table,
+  table{    
+    tbody{
+      td{
+        padding: 20px 10px;
+        border-top: 0;
+        border-bottom: 1px solid $gray-200;
+        .product-name{
+          font-size: 13px;
+          color: $gray-700;
+          font-weight: 500;
+        }
+      }
+      tr:last-child td{
+        border-bottom: 0;
+      }
+    }    
+  }
+}
+.total-payment{
+  border:1px solid $gray-200;
+  background-color: $light-alt;
+  border-radius: 3px;
+  .payment-title{
+    color: $gray-700;
+    font-weight: 500;
+  }
+}
+.cart-promo{
+  padding: 90px;
+  background-image: url(../images/products/bg-cart.png);
+  background-position: center center;
+  background-size: cover;
+
+}
+
+
+

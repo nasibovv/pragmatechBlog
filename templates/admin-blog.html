@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8" />
+        <title>Pragmatech - Admin & Dashboard</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+        <meta content="" name="author" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+        <!-- App favicon -->
+        <link rel="icon" href="{{url_for('static', filename='img/pragmatech_img.jpg')}}">
+
+        <link href="{{url_for('static', filename='assets/plugins/jsgrid/jsgrid.min.css')}}" rel="stylesheet"> 
+        <link href="{{url_for('static', filename='assets/plugins/jsgrid/jsgrid-theme.min.css')}}" rel="stylesheet"> 
+
+        <!-- App css -->
+        <link href="{{url_for('static', filename='assets/css/bootstrap.min.css')}}" rel="stylesheet">      
+        <link href="{{url_for('static', filename='assets/css/jquery-ui.min.css')}}" rel="stylesheet">
+        <link href="{{url_for('static', filename='assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{url_for('static', filename='assets/css/metisMenu.min.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{url_for('static', filename='assets/css/app.min.css')}}" rel="stylesheet" type="text/css" />
+
+        <style>
+            .page-content-tab{
+                width:100%!important;
+                }
+        </style>
+    </head>
+
+    <body>
+        <div class="page-wrapper">
+
+            <!-- Page Content-->
+            <div class="page-content-tab">
+
+                <div class="container">
+                    <!-- Page-Title -->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="page-title-box">
+                                <div class="float-right">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="/admin/blog">Blogs</a></li>
+                                        <li class="breadcrumb-item"><a href="/admin/user">Users</a></li>
+                                    </ol>
+                                </div>
+                                <h4 class="page-title">Pragmatech Admin Panel</h4>
+                            </div><!--end page-title-box-->
+                        </div><!--end col-->
+                    </div>
+                    <!-- end page title end breadcrumb -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+    
+                                    <h4 class="mt-0 header-title">Activate & Deactivate Panel</h4>
+                                    <p class="text-muted mb-3">You can activate or deactivate selected row.</p>
+    
+                                    <div class="table-rep-plugin">
+                                        <div class="table-responsive mb-0" data-pattern="priority-columns">
+                                            <table id="tech-companies-1" class="table table-striped mb-0">
+                                                <thead>
+                                                <tr>
+                                                    <th data-priority="6">Blog ID</th>
+                                                    <th data-priority="1">Title</th>
+                                                    <th data-priority="3">Content</th>
+                                                    <th data-priority="3">Writer ID</th>
+                                                    <th data-priority="1">Writer Name</th>
+                                                    <th data-priority="3">Writer Surname</th>
+                                                    <th data-priority="6">Status</th>
+                                                    <th data-priority="6">Link</th>
+
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for (blog,author) in db%}
+                                                <tr>
+                                                    <td>{{blog.id}}</td>
+                                                    <td>{{blog.title | truncate(50)}}</td>
+                                                    <td>{{blog.content | truncate(80, False, '...', 0) | safe}}</td>
+                                                    <td>{{blog.writer_id}}</td>
+                                                    <td>{{author.name}}</td>
+                                                    <td>{{author.surname}}</td>
+                                                    {% if blog.active == 1 %}
+                                                    <td><a href="{{ url_for('deactivate', id = blog.id) }}"><button type="button" class="btn btn-danger">Deactivate</button></td></a>
+                                                    {% else %}
+                                                    <td><a href="{{ url_for('activate', id = blog.id) }}"><button type="button" class="btn btn-success">Activate</button></td></a>
+                                                    {% endif %}
+                                                    <td><a href="{{ url_for('blog', id = blog.id) }}"><button type="button" class="btn btn-primary">Read</button></a></td>
+                                                </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>    
+                                    </div>    
+                                </div><!--end card-body-->
+                            </div><!--end card-->
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+                </div><!-- container -->
+
+                <footer class="footer text-center text-sm-left">
+                    &copy; 2020 Pragmatech <span class="text-muted d-none d-sm-inline-block float-right">modified by Vidadi Nasibov</span>
+                </footer><!--end footer-->
+            </div>
+            <!-- end page content -->
+        </div>
+        <!-- end page-wrapper -->
+
+        
+
+
+        <!-- jQuery  -->
+        <script src="{{url_for('static', filename='assets/js/jquery.min.js')}}"></script>
+        <script src="{{url_for('static', filename='assets/js/jquery-ui.min.js')}}"></script>
+        <script src="{{url_for('static', filename='assets/js/bootstrap.bundle.min.js')}}"></script>
+        <script src="{{url_for('static', filename='assets/js/metismenu.min.js')}}"></script>
+        <script src="{{url_for('static', filename='assets/js/waves.js')}}"></script>
+        <script src="{{url_for('static', filename='assets/js/feather.min.js')}}"></script>
+        <script src="{{url_for('static', filename='assets/js/jquery.slimscroll.min.js')}}"></script>
+        <script src="{{url_for('static', filename='assets/plugins/apexcharts/apexcharts.min.js')}}"></script>
+
+        <script src="{{url_for('static', filename='assets/plugins/jsgrid/jsgrid.min.js')}}"></script>
+        <script src="{{url_for('static', filename='assets/plugins/jsgrid/db.js')}}"></script>
+        <script src="{{url_for('static', filename='assets/plugins/pages/jquery.jsgrid.init.js')}}"></script>
+        <script src="{{url_for('static', filename='assets/pages/jquery.jsgrid.init.js')}}"></script>
+        
+        <!-- App js -->
+        <script src="{{url_for('static', filename = 'assets/js/app.js')}}"></script>
+        
+    </body>
+
+</html>
