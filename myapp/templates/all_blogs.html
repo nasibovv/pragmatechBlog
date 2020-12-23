@@ -159,6 +159,11 @@
                 $('#blog_post_wrapper').append(newHtml)
                 if(tempList[tempList.length - 1] == undefined){
                     $('#load_more_btn').remove();
+                }
+                else if(tempList[tempList.length - 2] == undefined){
+                    $('#load_more_btn').remove();
+                }else if(tempList[tempList.length - 3] == undefined){
+                    $('#load_more_btn').remove();
                 }else{
                     $('#load_more_btn').removeClass('disabled').text('Load More')
                 }
