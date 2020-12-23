@@ -196,6 +196,8 @@ def blog(id):
                 related_writer = userInfo.query.get(post.writer_id)
                 rw.append(related_writer)
                 count = count - 1
+            else:
+                return ('Blog not is avaible or in hold!')
         
         else:
             break
