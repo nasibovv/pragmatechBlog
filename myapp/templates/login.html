@@ -51,20 +51,20 @@
                                     </div> <!--end auth-logo-text-->  
     
                                     
-                                    <form class="form-horizontal auth-form my-4" method="POST">
+                                    <form class="form-horizontal auth-form my-4" method="POST" novalidate >
                                         {{form.csrf_token}}
 
                                         <div class="form-group">
                                             <label for="username">Username</label>
                                             <div class="input-group mb-3">                                                                                                            
-                                                <input type="text" class="form-control" name="username" placeholder="Enter username">
+                                                <input type="text" class="form-control" name="username" placeholder="Enter username" required>
                                             </div>                                    
                                         </div><!--end form-group--> 
             
                                         <div class="form-group">
                                             <label for="userpassword">Password</label>                                            
                                             <div class="input-group mb-3">                                                       
-                                                <input type="password" class="form-control" name="password" placeholder="Enter password">
+                                                <input type="password" class="form-control" name="password" placeholder="Enter password" required>
                                             </div>                               
                                         </div><!--end form-group--> 
             

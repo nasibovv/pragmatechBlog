@@ -221,6 +221,9 @@ def Login():
 
             else:
                 flash("Your account is currently in hold. Please contact with admin.")
+        
+        else:
+            flash("Please fill out all fields!")
 
         
 
