@@ -190,15 +190,12 @@ def blog(id):
     for i in range(50):
         if count != 0:
             post = articles.query.get(rand_id[i])
-            if post.active == True:
-                blog_list.append(post)
+            #if post.active == True:
+            blog_list.append(post)
 
-                related_writer = userInfo.query.get(post.writer_id)
-                rw.append(related_writer)
-                count = count - 1
-            else:
-                return ('Blog not is avaible or in hold!')
-        
+            related_writer = userInfo.query.get(post.writer_id)
+            rw.append(related_writer)
+            count = count - 1
         else:
             break
 
@@ -360,41 +357,31 @@ def add_pp():
 @app.route('/authors')
 def authors():
     
-    real_temp2 = list()
-    temp = userInfo.query.with_entities(userInfo.id).all()
-    temp2 = articles.query.with_entities(articles.writer_id).all()
-    blogs = articles.query.all()
+    active_users = userInfo.query.filter_by(active = True).with_entities(userInfo.id).all()
+    number_of_active_blog = articles.query.filter_by(active = True).with_entities(articles.writer_id).count()
+    active_blogs_id = articles.query.filter_by(active = True).with_entities(articles.writer_id).all()
+    active_blogs = articles.query.filter_by(active = True).all()
 
-    for x in range(len(temp2)):
-        if blogs[x].active == True:
-            real_temp2.append(blogs[x].writer_id)
-    
+    post_bywriter = list()
     writer = list()
-    authors = list()
 
-    for x in range(len(real_temp2)):
-        for y in range(len(temp)):
-            if temp[y][0] == real_temp2[x]:
-                writer.append(temp[y][0])
+    for x in range(number_of_active_blog):
+        for y in range(len(active_users)):
+            if active_users[y][0] == active_blogs_id[x][0]:
+                writer.append(userInfo.query.get(active_users[y][0]))
 
     writer = list(set(writer))
-    post_bywriter = list()
-
-    for x in writer:
-        authors.append(userInfo.query.get(x))
-    
-    print(temp2)
 
     for y in range(len(writer)):
         count = 0
-        for x in range(len(temp2)):
-            if writer[y] == blogs[x].writer_id:
-                if blogs[x].active == True:
-                    count += 1
+        for x in range(number_of_active_blog):
+            if writer[y].id == active_blogs[x].writer_id:
+                count += 1
         
         post_bywriter.append(count)
 
-    return render_template('authors.html', authors = zip(authors, post_bywriter))
+
+    return render_template('authors.html', authors = zip(writer, post_bywriter))
 
 @app.route('/author/<int:id>')
 def author(id):

@@ -9,6 +9,7 @@
 
 <!-- Begin Article
 ================================================== -->
+{% if post.active == True %}
 <div class="container">
 	<div class="row">
 
@@ -165,6 +166,11 @@
 <script src='https://cdn.rawgit.com/OpenShare/openshare/master/dist/openshare.js'></script>
 <!-- End Related Posts
 ================================================== -->
+{% else %}
+<div class="container">
+	<h1 style="text-align: center;">Blog is not avaible!</h1>
+</div>
+{% endif %}
 
 {% endblock %}
 
@@ -177,6 +183,3 @@
 </div>
  End AlertBar
 ================================================== -->
-
-
-
